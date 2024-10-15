@@ -51,17 +51,17 @@ public struct Burn<phantom CoinType> has drop, copy(u64)
 public fun new<CoinType>(cap: TreasuryCap<CoinType>, ctx: &mut TxContext): (TreasuryCapV2, MintCap, BurnCap, MetadataCap) {
     let name = type_name::get<CoinType>();
 
-    let mut memez_cap = TreasuryCapV2 {
+    let mut treasury_cap_v2 = TreasuryCapV2 {
         id: object::new(ctx), 
         name
     };
 
-    dof::add(&mut memez_cap.id, name, cap);
+    dof::add(&mut treasury_cap_v2.id, name, cap);
 
-    let treasury = memez_cap.id.to_address();
+    let treasury = treasury_cap_v2.id.to_address();
 
    (
-    memez_cap,
+    treasury_cap_v2,
     MintCap {
         id: object::new(ctx),
         treasury
