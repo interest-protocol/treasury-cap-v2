@@ -3,7 +3,7 @@ name = "TreasuryCapV2"
 edition = "2024.beta"
 license = "MIT"          
 authors = ["Jose Cerqueira (jose@interestprotocol.com)"] 
-published_at = "0x721f784368fef7f6ce7ec4e312065861051ebae0afcb7ebae81b9c1556459745"
+published-at = "0x721f784368fef7f6ce7ec4e312065861051ebae0afcb7ebae81b9c1556459745"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }

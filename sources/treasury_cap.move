@@ -84,7 +84,7 @@ public fun update_name<T>(
     name: string::String
 ) {
     assert!(cap.treasury == self.id.to_address(), EInvalidCap);
-   let cap = dof::borrow<TypeName ,TreasuryCap<T>>(&self.id, type_name::get<T>());
+   let cap = dof::borrow<TypeName, TreasuryCap<T>>(&self.id, type_name::get<T>());
 
    cap.update_name(metadata, name);
 }
@@ -97,7 +97,7 @@ public fun update_symbol<T>(
 ) {
     assert!(cap.treasury == self.id.to_address(), EInvalidCap);
 
-   let cap = dof::borrow<TypeName ,TreasuryCap<T>>(&self.id, type_name::get<T>());
+   let cap = dof::borrow<TypeName, TreasuryCap<T>>(&self.id, type_name::get<T>());
 
    cap.update_symbol(metadata, symbol);
 }
@@ -110,7 +110,7 @@ public fun update_description<T>(
 ) {
     assert!(cap.treasury == self.id.to_address(), EInvalidCap);
 
-    let cap = dof::borrow<TypeName ,TreasuryCap<T>>(&self.id, type_name::get<T>());
+    let cap = dof::borrow<TypeName, TreasuryCap<T>>(&self.id, type_name::get<T>());
 
     cap.update_description(metadata, description);
 }
@@ -123,7 +123,7 @@ public fun update_icon_url<T>(
 ) {
     assert!(cap.treasury == self.id.to_address(), EInvalidCap);
 
-    let cap = dof::borrow<TypeName ,TreasuryCap<T>>(&self.id, type_name::get<T>());
+    let cap = dof::borrow<TypeName, TreasuryCap<T>>(&self.id, type_name::get<T>());
 
     cap.update_icon_url(metadata, url);
 }
@@ -138,7 +138,7 @@ public fun mint<T>(
 
     emit(Mint<T>(amount));
 
-    let cap = dof::borrow_mut<TypeName ,TreasuryCap<T>>(&mut self.id, type_name::get<T>());
+    let cap = dof::borrow_mut<TypeName, TreasuryCap<T>>(&mut self.id, type_name::get<T>());
 
     cap.mint(amount, ctx)
 }   
@@ -152,7 +152,7 @@ public fun burn<T>(
 
     emit(Burn<T>(coin.value()));
 
-    let cap = dof::borrow_mut<TypeName ,TreasuryCap<T>>(&mut self.id, type_name::get<T>());
+    let cap = dof::borrow_mut<TypeName, TreasuryCap<T>>(&mut self.id, type_name::get<T>());
 
     cap.burn(coin);
 }
@@ -178,7 +178,7 @@ public fun destroy_metadata_cap(cap: MetadataCap) {
 // === Public View Functions === 
 
 public fun total_supply<T>(self: &TreasuryCapV2): u64 {
-    let cap = dof::borrow<TypeName ,TreasuryCap<T>>(&self.id, type_name::get<T>());      
+    let cap = dof::borrow<TypeName, TreasuryCap<T>>(&self.id, type_name::get<T>());      
 
     cap.total_supply()
 }
