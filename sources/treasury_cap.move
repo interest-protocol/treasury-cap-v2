@@ -160,19 +160,19 @@ public fun burn<T>(
 public fun destroy_burn_cap(cap: BurnCap) {
     let BurnCap { id, .. } = cap;
 
-    object::delete(id);
+    id.delete();
 }
 
 public fun destroy_mint_cap(cap: MintCap) {
     let MintCap { id, .. } = cap;
 
-    object::delete(id);
+    id.delete();
 }
 
 public fun destroy_metadata_cap(cap: MetadataCap) {
     let MetadataCap { id, .. } = cap;
 
-    object::delete(id);
+    id.delete();
 }
 
 // === Public View Functions === 
