@@ -4,9 +4,9 @@
 
 ### It adds the following capabilities:
 
-- Mint
-- Burn
-- Metadata
+- `MintCap` to mint the coins
+- `BurnCap` to burn the coins
+- `MetadataCap` to manage the metadata of coins
 
 ## Immutable
 
