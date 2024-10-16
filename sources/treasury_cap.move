@@ -42,14 +42,14 @@ public struct TreasuryCapV2 has key, store {
 
 // === Events ===  
 
-public struct Mint<phantom CoinType> has drop, copy(u64) 
+public struct Mint<phantom T> has drop, copy(u64) 
 
-public struct Burn<phantom CoinType> has drop, copy(u64) 
+public struct Burn<phantom T> has drop, copy(u64) 
 
 // === Public Mutative === 
 
-public fun new<CoinType>(cap: TreasuryCap<CoinType>, ctx: &mut TxContext): (TreasuryCapV2, MintCap, BurnCap, MetadataCap) {
-    let name = type_name::get<CoinType>();
+public fun new<T>(cap: TreasuryCap<T>, ctx: &mut TxContext): (TreasuryCapV2, MintCap, BurnCap, MetadataCap) {
+    let name = type_name::get<T>();
 
     let mut treasury_cap_v2 = TreasuryCapV2 {
         id: object::new(ctx), 
