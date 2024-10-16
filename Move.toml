@@ -6,7 +6,7 @@ authors = ["Jose Cerqueira (jose@interestprotocol.com)"]
 published-at = "0x721f784368fef7f6ce7ec4e312065861051ebae0afcb7ebae81b9c1556459745"
 
 [dependencies]
-Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
 
 # For remote import, use the `{ git = "...", subdir = "...", rev = "..." }`.
 # Revision can be a branch, a tag, and a commit hash.
