@@ -3,7 +3,7 @@ name = "TreasuryCapV2"
 edition = "2024.beta"
 license = "MIT"          
 authors = ["Jose Cerqueira (jose@interestprotocol.com)"] 
-published-at = "0x721f784368fef7f6ce7ec4e312065861051ebae0afcb7ebae81b9c1556459745"
+published-at = "0x6615c97931f55c5db45bfbc9707ad64652416459614f18e2f4b86d4bb8283115"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/mainnet" }
@@ -20,7 +20,7 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 # Override = { local = "../conflicting/version", override = true }
 
 [addresses]
-treasury_cap_v2 = "0x721f784368fef7f6ce7ec4e312065861051ebae0afcb7ebae81b9c1556459745"
+treasury_cap_v2 = "0x6615c97931f55c5db45bfbc9707ad64652416459614f18e2f4b86d4bb8283115"
 sui = "0x2"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
