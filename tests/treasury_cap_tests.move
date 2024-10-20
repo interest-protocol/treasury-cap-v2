@@ -52,6 +52,12 @@ fun test_end_to_end() {
     assert_eq(effects.num_user_events(), 1);
 
     assert_eq(treasury_cap_v2.total_supply<APTOS>(), 0);
+
+    let treasury_address = object::id(&treasury_cap_v2).to_address();
+
+    assert_eq(treasury_address, mint_cap.treasury());
+    assert_eq(treasury_address, burn_cap.treasury());
+    assert_eq(treasury_address, metadata_cap.treasury());
     
     treasury_cap_v2.update_name<APTOS>(&mut metadata,&metadata_cap, b"Aptos V2".to_string()); 
     treasury_cap_v2.update_symbol<APTOS>(&mut metadata,&metadata_cap, b"APT2".to_ascii_string()); 

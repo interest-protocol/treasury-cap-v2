@@ -184,8 +184,24 @@ public fun total_supply<T>(self: &TreasuryCapV2): u64 {
     cap.total_supply()
 }
 
+public fun mint_cap_treasury(cap: &MintCap): address {
+    cap.treasury
+}
+
+public fun burn_cap_treasury(cap: &BurnCap): address {
+    cap.treasury
+}
+
+public fun metadata_cap_treasury(cap: &MetadataCap): address {
+    cap.treasury
+}
+
 // === Method Aliases ===  
 
 public use fun destroy_burn_cap as BurnCap.destroy;
 public use fun destroy_mint_cap as MintCap.destroy;
 public use fun destroy_metadata_cap as MetadataCap.destroy;
+
+public use fun mint_cap_treasury as MintCap.treasury;
+public use fun burn_cap_treasury as BurnCap.treasury;
+public use fun metadata_cap_treasury as MetadataCap.treasury;
