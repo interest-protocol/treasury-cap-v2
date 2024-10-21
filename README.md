@@ -10,8 +10,8 @@
 
 ## Immutable
 
-[The package is immutable](https://suivision.xyz/txblock/9AKzdQfHwhDjWw7Vu2KmxwG1cLYihCgdjEpRhmTEwmTJ)
+[The package is immutable](https://suivision.xyz/txblock/9GAQmBnb39UrWVaYKeaTfcvtPeXJR5QT7BzHESJTYS8U)
 
 ## Mainnet Code
 
-[Suivision](https://suivision.xyz/package/0xc8f25fd69685839ded5afafd564d4fde85061fb405eb5c4fbd073d8e3a75ba91?tab=Code)
+[Suivision](https://suivision.xyz/package/0x7a7faa02ec4049c71c148084954f838a55b9967a482fa2cbd63c9d8d241370f8?tab=Code)
