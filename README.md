@@ -1,4 +1,4 @@
-# Treasury Cap V2
+# Coin V2
 
 ## It wraps `sui::coin::TreasuryCap` and adds capabilities to mint, burn and manage the metadata of coins.
 

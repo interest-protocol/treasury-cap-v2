@@ -1,4 +1,4 @@
-module treasury_cap_v2::treasury_cap;
+module coin_v2::coin_v2;
 // === Imports === 
 
 use std::{
