@@ -1,5 +1,5 @@
 #[test_only]
-module treasury_cap_v2::aptos;
+module coin_v2::aptos;
 
 use sui::coin;
 

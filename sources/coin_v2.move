@@ -299,3 +299,25 @@ public use fun treasury_cap_name as TreasuryCapV2.name;
 public use fun mint_cap_name as MintCap.name;
 public use fun burn_cap_name as BurnCap.name;
 public use fun metadata_cap_name as MetadataCap.name;
+
+// === Test Functions ===  
+
+#[test_only]
+public fun mint_cap_created(witness: &CapWitness): bool {
+    witness.mint_cap_created
+}
+
+#[test_only]
+public fun burn_cap_created(witness: &CapWitness): bool {
+    witness.burn_cap_created
+}
+
+#[test_only]
+public fun metadata_cap_created(witness: &CapWitness): bool {
+    witness.metadata_cap_created
+}
+
+#[test_only]
+public fun indestructible(cap: &BurnCap): bool {
+    cap.indestructible
+}
