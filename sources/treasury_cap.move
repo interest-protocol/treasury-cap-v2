@@ -29,21 +29,21 @@ const EBurnCapIsIndestructible: vector<u8> = b"The burn cap is indestructible.";
 public struct CapWitness has drop {
     treasury: address,
     name: TypeName,
-    mint_created: bool,
-    burn_created: bool,
-    metadata_created: bool
+    mint_cap_created: bool,
+    burn_cap_created: bool,
+    metadata_cap_created: bool
+}
+
+public struct MintCap has key, store {
+    id: UID,
+    treasury: address,
+    name: TypeName
 }
 
 public struct BurnCap has key, store {
     id: UID,
     treasury: address,
     indestructible: bool,
-    name: TypeName
-}
-
-public struct MintCap has key, store {
-    id: UID,
-    treasury: address,
     name: TypeName
 }
 
@@ -89,16 +89,16 @@ public fun new<T>(cap: TreasuryCap<T>, ctx: &mut TxContext): (TreasuryCapV2, Cap
     CapWitness { 
         treasury, 
         name, 
-        mint_created: false, 
-        burn_created: false, 
-        metadata_created: false 
+        mint_cap_created: false, 
+        burn_cap_created: false, 
+        metadata_cap_created: false 
     }
    )
 }
 
-public fun generate_mint_cap(witness: &mut CapWitness, ctx: &mut TxContext): MintCap {
-    assert!(!witness.mint_created, ECapAlreadyCreated);
-    witness.mint_created = true;
+public fun create_mint_cap(witness: &mut CapWitness, ctx: &mut TxContext): MintCap {
+    assert!(!witness.mint_cap_created, ECapAlreadyCreated);
+    witness.mint_cap_created = true;
 
     MintCap {
         id: object::new(ctx),
@@ -107,9 +107,9 @@ public fun generate_mint_cap(witness: &mut CapWitness, ctx: &mut TxContext): Min
     }
 }
 
-public fun generate_burn_cap(witness: &mut CapWitness, ctx: &mut TxContext): BurnCap {
-    assert!(!witness.burn_created, ECapAlreadyCreated);
-    witness.burn_created = true;
+public fun create_burn_cap(witness: &mut CapWitness, ctx: &mut TxContext): BurnCap {
+    assert!(!witness.burn_cap_created, ECapAlreadyCreated);
+    witness.burn_cap_created = true;
     
     BurnCap {
         id: object::new(ctx),
@@ -119,9 +119,9 @@ public fun generate_burn_cap(witness: &mut CapWitness, ctx: &mut TxContext): Bur
     }
 }
 
-public fun generate_indestructible_burn_cap(witness: &mut CapWitness, ctx: &mut TxContext): BurnCap {
-    assert!(!witness.burn_created, ECapAlreadyCreated);
-    witness.burn_created = true;
+public fun create_indestructible_burn_cap(witness: &mut CapWitness, ctx: &mut TxContext): BurnCap {
+    assert!(!witness.burn_cap_created, ECapAlreadyCreated);
+    witness.burn_cap_created = true;
     
     BurnCap {
         id: object::new(ctx),
@@ -131,15 +131,44 @@ public fun generate_indestructible_burn_cap(witness: &mut CapWitness, ctx: &mut 
     }
 }
 
-public fun generate_metadata_cap(witness: &mut CapWitness, ctx: &mut TxContext): MetadataCap {
-    assert!(!witness.metadata_created, ECapAlreadyCreated);
-    witness.metadata_created = true;
+public fun create_metadata_cap(witness: &mut CapWitness, ctx: &mut TxContext): MetadataCap {
+    assert!(!witness.metadata_cap_created, ECapAlreadyCreated);
+    witness.metadata_cap_created = true;
     
     MetadataCap {
         id: object::new(ctx),
         treasury: witness.treasury,
         name: witness.name
     }
+}
+
+public fun mint<T>(
+    self: &mut TreasuryCapV2, 
+    cap: &MintCap,
+    amount: u64,
+    ctx: &mut TxContext
+): Coin<T> {
+    assert!(cap.treasury == self.id.to_address(), EInvalidCap);
+
+    emit(Mint(self.name, amount));
+
+    let cap = dof::borrow_mut<TypeName, TreasuryCap<T>>(&mut self.id, self.name);
+
+    cap.mint(amount, ctx)
+}   
+
+public fun burn<T>(
+    self: &mut TreasuryCapV2, 
+    cap: &BurnCap,
+    coin: Coin<T>
+) {
+    assert!(cap.treasury == self.id.to_address(), EInvalidCap);
+
+    emit(Burn(self.name, coin.value()));
+
+    let cap = dof::borrow_mut<TypeName, TreasuryCap<T>>(&mut self.id, self.name);
+
+    cap.burn(coin);
 }
 
 public fun update_name<T>(
@@ -194,33 +223,12 @@ public fun update_icon_url<T>(
     cap.update_icon_url(metadata, url);
 }
 
-public fun mint<T>(
-    self: &mut TreasuryCapV2, 
-    cap: &MintCap,
-    amount: u64,
-    ctx: &mut TxContext
-): Coin<T> {
-    assert!(cap.treasury == self.id.to_address(), EInvalidCap);
+public fun destroy_mint_cap(cap: MintCap) {
+    let MintCap { id, name, .. } = cap;
 
-    emit(Mint(self.name, amount));
+    emit(DestroyMintCap(name));
 
-    let cap = dof::borrow_mut<TypeName, TreasuryCap<T>>(&mut self.id, self.name);
-
-    cap.mint(amount, ctx)
-}   
-
-public fun burn<T>(
-    self: &mut TreasuryCapV2, 
-    cap: &BurnCap,
-    coin: Coin<T>
-) {
-    assert!(cap.treasury == self.id.to_address(), EInvalidCap);
-
-    emit(Burn(self.name, coin.value()));
-
-    let cap = dof::borrow_mut<TypeName, TreasuryCap<T>>(&mut self.id, self.name);
-
-    cap.burn(coin);
+    id.delete();
 }
 
 public fun destroy_burn_cap(cap: BurnCap) {
@@ -229,14 +237,6 @@ public fun destroy_burn_cap(cap: BurnCap) {
     let BurnCap { id, name, .. } = cap;
 
     emit(DestroyBurnCap(name));
-
-    id.delete();
-}
-
-public fun destroy_mint_cap(cap: MintCap) {
-    let MintCap { id, name, .. } = cap;
-
-    emit(DestroyMintCap(name));
 
     id.delete();
 }
@@ -269,6 +269,10 @@ public fun metadata_cap_treasury(cap: &MetadataCap): address {
     cap.treasury
 }
 
+public fun treasury_cap_name(cap: &TreasuryCapV2): TypeName {
+    cap.name
+}
+
 public fun mint_cap_name(cap: &MintCap): TypeName {
     cap.name
 }
@@ -291,6 +295,7 @@ public use fun mint_cap_treasury as MintCap.treasury;
 public use fun burn_cap_treasury as BurnCap.treasury;
 public use fun metadata_cap_treasury as MetadataCap.treasury;
 
+public use fun treasury_cap_name as TreasuryCapV2.name;
 public use fun mint_cap_name as MintCap.name;
 public use fun burn_cap_name as BurnCap.name;
 public use fun metadata_cap_name as MetadataCap.name;
