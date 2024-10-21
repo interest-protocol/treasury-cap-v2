@@ -107,7 +107,7 @@ public fun generate_mint_cap(witness: &mut CapWitness, ctx: &mut TxContext): Min
     }
 }
 
-public fun generate_burn_cap(witness: &mut CapWitness, indestructible: bool, ctx: &mut TxContext): BurnCap {
+public fun generate_burn_cap(witness: &mut CapWitness, ctx: &mut TxContext): BurnCap {
     assert!(!witness.burn_created, ECapAlreadyCreated);
     witness.burn_created = true;
     
@@ -115,7 +115,19 @@ public fun generate_burn_cap(witness: &mut CapWitness, indestructible: bool, ctx
         id: object::new(ctx),
         treasury: witness.treasury,
         name: witness.name,
-        indestructible
+        indestructible: false
+    }
+}
+
+public fun generate_indestructible_burn_cap(witness: &mut CapWitness, ctx: &mut TxContext): BurnCap {
+    assert!(!witness.burn_created, ECapAlreadyCreated);
+    witness.burn_created = true;
+    
+    BurnCap {
+        id: object::new(ctx),
+        treasury: witness.treasury,
+        name: witness.name,
+        indestructible: true
     }
 }
 
